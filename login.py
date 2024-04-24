@@ -35,7 +35,6 @@ class User(db.Model):
             'dob': self.dob.strftime('%Y-%m-%d') if self.dob else None
         }
 
-# Add a route for a simple welcome page
 @app.route('/')
 def welcome():
     return 'Welcome to the Flask App!'
@@ -57,7 +56,6 @@ def create_user():
         db.session.rollback()
         return jsonify({'message': 'User with this UID already exists'}), 400
 
-# Function to initialize users
 def init_users():
     with app.app_context():
         db.create_all()
@@ -79,7 +77,6 @@ def init_users():
                 db.session.rollback()
                 print(f"Record exists for UID: {user.uid} or error.")
 
-# Function to check credentials
 def check_credentials(uid, password):
     with app.app_context():
         user = User.query.filter_by(uid=uid).first()
@@ -88,6 +85,4 @@ def check_credentials(uid, password):
         return user.check_password(password)
 
 if __name__ == '__main__':
-    # Uncomment the line below for the first run to initialize users
-    # init_users()
     app.run(debug=True)
